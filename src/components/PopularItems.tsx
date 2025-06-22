@@ -19,6 +19,10 @@ const PopularItems = () => {
       const handleCompareClick = (id: string) => {
         navigate(`/compare?first=${id}`);
       }
+
+      const handleInfoClick = (id: string) => {
+        navigate(`/?id=${id}`);
+      }
   
       const fetchPopularItems = async () => {
         try {
@@ -84,7 +88,11 @@ const PopularItems = () => {
                           maxWidth: { xs: 260, sm: 300 },
                           width: '100%',
                           position: 'relative',
+                          '&:hover': {
+                            cursor: 'pointer'
+                          }
                         }}
+                        onClick={() => handleInfoClick(vitamin.id)}
                       >
                         <IconButton
                           aria-label="karşılaştır"
