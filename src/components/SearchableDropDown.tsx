@@ -1,5 +1,6 @@
 import { Autocomplete, TextField, CircularProgress } from "@mui/material";
 import { useState, useCallback, useEffect, useRef } from "react";
+import { customFetch } from "../context/CustomFetch";
 
 type DropdownVitamin = {
     id: string;
@@ -34,14 +35,13 @@ const SearchableDropdown: React.FC<SearchableDropdownProps> = ({ onSelect, selec
         }
         setLoading(true);
         try {
-          const response = await fetch(`${apiBaseUrl}/api/v1/vitamins/${selectedId}`, {
+          const response = await customFetch(`${apiBaseUrl}/api/v1/vitamins/${selectedId}`, {
             method: "GET",
             credentials: "include",
           });
-          const data = await response.json();
-          const selectedItem = { id: data.id, title: data.title };
+          const selectedItem = { id: response.id, title: response.title };
           setSelectedVitamin(selectedItem);
-          onSelect(data.id);  // Bu satır opsiyonel, çünkü zaten selectedId geldi
+          onSelect(response.id);  // Bu satır opsiyonel, çünkü zaten selectedId geldi
         } catch (error) {
           console.error("Vitamin detayını alırken hata:", error);
           setSelectedVitamin(null);
@@ -66,12 +66,11 @@ const SearchableDropdown: React.FC<SearchableDropdownProps> = ({ onSelect, selec
             return;
         setLoading(true);
         try {
-            const response = await fetch(`${apiBaseUrl}/api/v1/vitamins/get-dropdown?titleLikeText=${titleLikeText}`, {
+            const response = await customFetch(`${apiBaseUrl}/api/v1/vitamins/get-dropdown?titleLikeText=${titleLikeText}`, {
                 method: "GET",
                 credentials: "include", // Eğer oturum bilgileri gerekiyorsa
             });
-            const data = await response.json();
-            setOptions(data.map((vitamin: any) => ({ title: vitamin.title, id: vitamin.id })));
+            setOptions(response.map((vitamin: any) => ({ title: vitamin.title, id: vitamin.id })));
         } catch (error) {
             console.error("Vitamin ararken hata oluştu:", error);
         }

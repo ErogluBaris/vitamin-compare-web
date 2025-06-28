@@ -3,6 +3,7 @@ import { VitaminContent, VitaminInfoData } from '../data/Vitamin';
 import { Box, Card, CardContent, CardMedia, Grid, IconButton, Link, Typography } from '@mui/material';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import { useNavigate } from 'react-router-dom';
+import { customFetch } from '../context/CustomFetch';
 
 const PopularItems = () => {
 
@@ -26,14 +27,12 @@ const PopularItems = () => {
   
       const fetchPopularItems = async () => {
         try {
-          const response = await fetch(`${apiBaseUrl}/api/v1/vitamins/get-popular`, {
+          const response = await customFetch(`${apiBaseUrl}/api/v1/vitamins/get-popular`, {
             method: "GET",
             credentials: "include",
             headers: { "Content-Type": "application/json" },
           });
-          const data = await response.json();
-          setPopularItems(data);
-          console.log(data);
+          setPopularItems(response);
         } catch (error) {
           console.error("Populer vitaminleri ararken hata oluştu:", error);
         }
