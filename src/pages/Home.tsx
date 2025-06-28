@@ -5,6 +5,7 @@ import { VitaminContent } from '../data/Vitamin';
 import VitaminInfo from '../components/VitaminInfo';
 import PopularItems from '../components/PopularItems';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { customFetch } from '../context/CustomFetch';
 
 
 const Home: React.FC = () => {
@@ -27,13 +28,12 @@ const Home: React.FC = () => {
   
     const fetchVitaminById = async (vitaminId: string) => {
       try {
-        const response = await fetch(`${apiBaseUrl}/api/v1/vitamins/${vitaminId}`, {
+        const response = await customFetch(`${apiBaseUrl}/api/v1/vitamins/${vitaminId}`, {
           method: "GET",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
         });
-        const data = await response.json();
-        setSelectedVitamin(data);
+        setSelectedVitamin(response);
       } catch (error) {
         console.error("Vitamin ararken hata oluştu:", error);
         setSelectedVitamin(null);

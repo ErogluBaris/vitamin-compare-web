@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NotFound from './pages/NotFound';
@@ -6,9 +6,31 @@ import Header from './components/Header';
 import Compare from './pages/Compare';
 import Home from './pages/Home';
 import { Box } from '@mui/material';
+import { LoadingProvider, useLoading } from './context/LoadingContext';
+import { registerGlobalLoadingSetter } from './context/LoadingHandler';
+import Spinner from './components/Spinner';
 
+function GlobalLoadingManager() {
+  const { setLoading } = useLoading()
+
+  useEffect(() => {
+    registerGlobalLoadingSetter(setLoading)
+  }, [])
+
+  return null
+}
 
 function App() {
+  return (
+    <LoadingProvider>
+      <GlobalLoadingManager />
+      <Spinner />
+      <MainApp />
+    </LoadingProvider>
+  );
+}
+
+function MainApp() {
   return (
     <Box style={{
       width: '100%',
@@ -25,7 +47,6 @@ function App() {
         </Routes>
       </Router>
     </Box>
-    
   );
 }
 

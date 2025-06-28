@@ -5,6 +5,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import PopularItems from '../components/PopularItems';
+import { customFetch } from '../context/CustomFetch';
 
 export default function Compare() {
   const [firstSelectedId, setFirstSelectedId] = useState<string | null>(null);
@@ -51,14 +52,13 @@ export default function Compare() {
 
   const fetchCompare = async (firstId: string, secondId: string) => {
     try {
-      const response = await fetch(`${apiBaseUrl}/api/v1/vitamin-compare/compare`, {
+      const response = await customFetch(`${apiBaseUrl}/api/v1/vitamin-compare/compare`, {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ firstId, secondId }),
       });
-      const data = await response.json();
-      setCompareResult(data);
+      setCompareResult(response);
     } catch (error) {
       console.error('Vitamin karşılaştırırken hata oluştu:', error);
     }
