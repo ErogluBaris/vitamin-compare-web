@@ -108,7 +108,10 @@ const PopularItems = () => {
                             width: 36,
                             height: 36,
                           }}
-                          onClick={() => handleCompareClick(vitamin.id)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleCompareClick(vitamin.id)}
+                          }
                         >
                           <CompareArrowsIcon fontSize="small" />
                         </IconButton>
