@@ -103,6 +103,27 @@ const VitaminInfo: React.FC<VitaminInfoProps> = ({ vitaminInfo }) => {
                   </TableContainer>
                 </Box>
               )}
+
+              {/* Diğer İçerik */}
+              {vitaminInfo.otherContent?.length > 0 && (
+                <Box>
+                  <Typography variant="h6" gutterBottom>
+                    Diğer İçerik
+                  </Typography>
+                  <TableContainer component={Paper}>
+                    <Table size="small">
+                      <TableBody>
+                        {vitaminInfo.otherContent.map((content, index) => (
+                          <TableRow key={index}>
+                            <TableCell>{content.name}</TableCell>
+                            <TableCell align="right">{content.amount}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </Box>
+              )}
             </Grid>
           </Grid>
         </Box>

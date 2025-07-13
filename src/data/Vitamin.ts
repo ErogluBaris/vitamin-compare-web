@@ -5,6 +5,7 @@ export type VitaminInfoData = {
     imgUrl: string;
     vitaminContent: VitaminContent[];
     mineralContent: VitaminContent[];
+    otherContent: VitaminContent[];
   };
 
 export type VitaminContent = {
