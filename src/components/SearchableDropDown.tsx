@@ -62,7 +62,7 @@ const SearchableDropdown: React.FC<SearchableDropdownProps> = ({ onSelect, selec
 
     // Backend'e istek atan fonksiyon
     const fetchVitamins = async (titleLikeText: string) => {
-        if (titleLikeText == null) 
+        if (titleLikeText == null || titleLikeText == "") 
             return;
         setLoading(true);
         try {
@@ -82,17 +82,19 @@ const SearchableDropdown: React.FC<SearchableDropdownProps> = ({ onSelect, selec
       }, []);
 
     // Kullanıcının yazdığı değeri belirli bir süre (300ms) bekleyip istek atacak şekilde optimize et
-    const debouncedFetchVitamins = useCallback(debounce(fetchVitamins, 300), []);
+    const debouncedFetchVitamins = useCallback(debounce(fetchVitamins, 1000), [apiBaseUrl]);
 
     return (
         <Autocomplete
             options={options}
-            getOptionLabel={(option) => option?.title}
+            getOptionLabel={(option) => option ? option.title : ""}
+            isOptionEqualToValue={(option, value) => option.id === value.id}
             loading={loading}
-            value={selectedVitamin}
+            value={selectedVitamin || undefined}
             onChange={(event, newValue) => handleSelect(newValue)}
             onInputChange={(event, newInputValue) => debouncedFetchVitamins(newInputValue)}
-            onOpen={() => fetchVitamins('')}
+            onOpen={undefined}
+            filterOptions={(x) => x}
             renderInput={(params) => (
                 <TextField
                     {...params}
